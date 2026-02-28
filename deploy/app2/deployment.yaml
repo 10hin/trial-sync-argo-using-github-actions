@@ -16,7 +16,7 @@ spec:
       creationTimestamp: null
       labels:
         app: my-app2
-        version: v2
+        version: v3
     spec:
       containers:
       - image: public.ecr.aws/docker/library/nginx:mainline
