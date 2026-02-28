@@ -1,0 +1,35 @@
+name: 'argocd-sync'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  argocd_sync:
+    run-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        # aws-actions/configure-aws-credentials@v6.0.0 at 2026-02-28
+        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7
+        with:
+          role-to-assume: arn:aws:iam::129008548655:role/trial-sync-argo-using-github-actions
+          aws-region: ap-northeast-1
+      - name: Get cluster name
+        id: get_cluster_name
+        # mikefarah/yq@v4.52.4 at 2026-02-28
+        uses: mikefarah/yq@5a7e72a743649b1b3a47d1a1d8214f3453173c51
+        with:
+          cmd: yq '.metadata.name' trial-sync-argo-using-github-actions-clusterconfig.yaml
+      - name: Get cluster region name
+        id: get_cluster_region_name
+        # mikefarah/yq@v4.52.4 at 2026-02-28
+        uses: mikefarah/yq@5a7e72a743649b1b3a47d1a1d8214f3453173c51
+        with:
+          cmd: yq '.metadata.region' trial-sync-argo-using-github-actions-clusterconfig.yaml
+      - name: configure kubeconfig
+        run: aws eks update-kubeconfig --name ${{ steps.get_cluster_name.outputs.result }} --region ${{ steps.get_cluster_region_name.outputs.result }}
+      - name: Install requirements
+        run: pip install .github/workflows/
+      - name: Sync ArgoCD
+        run: python .github/sync-argocd/sync_argocd.py
