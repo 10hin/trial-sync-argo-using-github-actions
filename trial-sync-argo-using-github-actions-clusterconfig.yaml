@@ -3,7 +3,7 @@ accessConfig:
   accessEntries:
   - type: STANDARD
     accessPolicies:
-    - policyARN: 'arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy'
+    - policyARN: 'arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy'
       accessScope:
         type: cluster
     principalARN: 'arn:aws:iam::129008548655:role/trial-sync-argo-using-github-actions'
