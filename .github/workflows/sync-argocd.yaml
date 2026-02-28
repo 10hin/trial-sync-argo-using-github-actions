@@ -35,7 +35,13 @@ jobs:
           cmd: yq '.metadata.region' trial-sync-argo-using-github-actions-clusterconfig.yaml
       - name: configure kubeconfig
         run: aws eks update-kubeconfig --name ${{ steps.get_cluster_name.outputs.result }} --region ${{ steps.get_cluster_region_name.outputs.result }}
+      - name: setup python
+        # actions/setup-python@v6.2.0 at 2026-02-28
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+        with:
+          python-version: '3.13'
+          cache: 'pip'
       - name: Install requirements
-        run: pip install .github/workflows/
+        run: pip install .github/sync-argocd/requirements.txt
       - name: Sync ArgoCD
         run: python .github/sync-argocd/sync_argocd.py
