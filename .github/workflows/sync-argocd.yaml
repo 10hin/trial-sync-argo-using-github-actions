@@ -7,7 +7,7 @@ on:
 
 jobs:
   argocd_sync:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
         # aws-actions/configure-aws-credentials@v6.0.0 at 2026-02-28
