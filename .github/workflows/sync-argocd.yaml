@@ -50,5 +50,5 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install requirements
         run: pip install -r .github/sync-argocd/requirements.txt
-      - name: Sync ArgoCD
-        run: python .github/sync-argocd/sync_argocd.py
+      # - name: Sync ArgoCD
+      #   run: python .github/sync-argocd/sync_argocd.py
